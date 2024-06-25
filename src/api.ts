@@ -8,7 +8,9 @@ export const paths = {
     search_item: "/data/wow/search/item",
     item_classes: "/data/wow/item-class/index",
     item_class: "/data/wow/item-class/",
-    item_subclass: "/item-subclass/"
+    item_subclass: "/item-subclass/",
+    item_detail: "/data/wow/item/",
+    item_media: "/data/wow/media/item/"
 }
 
 export function create_api_url(key: string) {

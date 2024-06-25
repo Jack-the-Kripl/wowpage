@@ -1,6 +1,6 @@
-import { client_id, client_secret, token_api_url } from "./api";
+import { client_id, client_secret, token_api_url } from "../api";
 
-type TTokenResponse = { "access_token": string, "token_type": string, "expires_in": number, "sub": string }
+export type TTokenResponse = { "access_token": string, "token_type": string, "expires_in": number, "sub": string }
 
 export async function generate_token() {
     try {
@@ -15,10 +15,15 @@ export async function generate_token() {
                 'client_secret': client_secret,
             })
         });
-        const data: TTokenResponse = await response.json();
-        return data.access_token;
+        if (response.ok) {
+            const data: TTokenResponse = await response.json();
+            return data;
+        } else {
+            throw new Error("Something happened");
+        }
     } catch (e) {
         console.log(e);
+        throw new Error("Something happened");
     }
 
 }
