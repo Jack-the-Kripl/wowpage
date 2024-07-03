@@ -13,7 +13,7 @@ const item_table_cols_def: Array<IColDef> = [
 	}
 ]
 
-export function ItemsPage(): JSX.Element {
+export function MountsPage(): JSX.Element {
 	const [search, setSearch] = useSearchParams();
 	const [searchMeta, setSearchMeta] = useState<ISearchMeta | null>(null);
 	const [items, setItems] = useState<Array<any>>([]);
@@ -28,15 +28,15 @@ export function ItemsPage(): JSX.Element {
 	}, []);
 
 	function doSearch() {
-		doFetch("search_item", [], [["name.{culture}", searchValue], ["_page", "1"]], (data: IItemSearchData) => {
-		    setSearchMeta({
-		        maxPageSize: data.maxPageSize,
-		        page: data.page,
-		        pageCount: data.pageCount,
-		        pageSize: data.pageSize
-		    });
-		    setItems(data.results);
-		}).catch(console.log);
+		// doFetch("search_item", [], [["name.{culture}", searchValue], ["_page", "1"]], (data: IItemSearchData) => {
+		//     setSearchMeta({
+		//         maxPageSize: data.maxPageSize,
+		//         page: data.page,
+		//         pageCount: data.pageCount,
+		//         pageSize: data.pageSize
+		//     });
+		//     setItems(data.results);
+		// }).catch(console.log);
 	}
 
 	function handleInputChange(e: any) {
@@ -54,14 +54,14 @@ export function ItemsPage(): JSX.Element {
 
 	return (
 		<div>
-			<h1>ITEMS PAGE</h1>
+			<h1>MOUNTS</h1>
 			<div className="row">
 				<TextField onChange={handleInputChange} value={searchValue} InputProps={{ value: searchValue }} />
 				<Button onClick={handleSearchClick}>SEARCH</Button>
 			</div>
-			{/* {
+			{
 				items.map(item => <div className="row" key={"list_item_" + (item.id ?? Math.random())}><Link to={`detail/${item.data.id}`} key={`item_` + item.data.id}>{item.data.name.en_US}</Link></div>)
-			} */}
+			}
 			<Table columns={item_table_cols_def} rows={items} />
 		</div>
 	)

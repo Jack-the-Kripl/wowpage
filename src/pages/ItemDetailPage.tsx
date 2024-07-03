@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import doFetch from "../hooks/doFetch";
-import { create_api_url } from "../api";
 import { IItemDetail } from "../types/ItemDetail";
+import useFetch from "../hooks/useFetch";
 
 // interface IItemDetailPageProps {
 //     reference: string;
@@ -13,13 +12,14 @@ export function ItemDetailPage(): JSX.Element {
     const [data, setData] = useState<IItemDetail | null>(null);
     const [icon, setIcon] = useState<any>(null);
     const [imgPreview, setImgPreview] = useState<any>(null);
+		const [doFetch, fetchState] = useFetch();
 
     useEffect(() => {
-        doFetch(create_api_url("item_detail") + itemId, setData);
+       itemId &&  doFetch("item_detail", [itemId], [], setData);
     }, [itemId]);
 
     useEffect(() => {
-        data && doFetch(data.media.key.href, (data: any) => {
+        data && doFetch(data.media.key.href, [], [], (data: any) => {
             setIcon(data?.assets[0]);
         });
     }, [data?.media.key.href]);
@@ -28,7 +28,7 @@ export function ItemDetailPage(): JSX.Element {
         return <></>;
     }
     return (
-        <div className="container">
+        <div>
             <div className="row">
                 <div><img src={icon?.value} alt="no image" width={50} height={50} /></div>
                 <h3>{data.name.en_US}</h3>

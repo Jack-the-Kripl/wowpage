@@ -1,0 +1,28 @@
+.header_inner_layout {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-basis: 100%;
+}
+
+.header_side {
+	display: flex;
+	flex-basis: 50%;
+}
+.header_side.left {
+	justify-content: flex-start;
+}
+.header_side.right {
+	justify-content: flex-end;
+}
+
+.header_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.header_item_title {
+	color: var(--theme-color_light);
+}

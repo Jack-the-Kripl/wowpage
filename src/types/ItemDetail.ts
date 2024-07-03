@@ -1,4 +1,4 @@
-import { ITranslatedName, TColor } from "./types";
+import { TTranslatedName, TColor } from "./types";
 
 export interface IItemDetail {
     _links: {
@@ -7,10 +7,10 @@ export interface IItemDetail {
         },
     },
     id: number;
-    name: ITranslatedName,
+    name: TTranslatedName,
     quality: {
         type: string;
-        name: ITranslatedName,
+        name: TTranslatedName,
     },
     level: number;
     required_level: number;
@@ -24,19 +24,19 @@ export interface IItemDetail {
         key: {
             href: string;
         },
-        name: ITranslatedName,
+        name: TTranslatedName,
         id: number;
     },
     item_subclass: {
         key: {
             href: string;
         },
-        name: ITranslatedName,
+        name: TTranslatedName,
         id: number;
     },
     inventory_type: {
         type: string;
-        name: ITranslatedName,
+        name: TTranslatedName,
     },
     purchase_price: number;
     sell_price: number;
@@ -52,9 +52,9 @@ export interface IItemDetail {
         },
         quality: {
             type: string;
-            name: ITranslatedName,
+            name: TTranslatedName,
         },
-        name: ITranslatedName,
+        name: TTranslatedName,
         media: {
             key: {
                 href: string;
@@ -65,58 +65,58 @@ export interface IItemDetail {
             key: {
                 href: string;
             },
-            name: ITranslatedName,
+            name: TTranslatedName,
             id: number;
         },
         item_subclass: {
             key: {
                 href: string;
             },
-            name: ITranslatedName,
+            name: TTranslatedName,
             id: number;
         },
         inventory_type: {
             type: string;
-            name: ITranslatedName,
+            name: TTranslatedName,
         },
         binding: {
             type: string;
-            name: ITranslatedName,
+            name: TTranslatedName,
         },
         armor?: {
             value: number;
             display: {
-                display_string: ITranslatedName,
+                display_string: TTranslatedName,
                 color: TColor,
             },
         },
         sell_price: {
             value: number;
             display_strings: {
-                header: ITranslatedName,
-                gold: ITranslatedName,
-                silver: ITranslatedName,
-                copper: ITranslatedName,
+                header: TTranslatedName,
+                gold: TTranslatedName,
+                silver: TTranslatedName,
+                copper: TTranslatedName,
             },
         },
         requirements: {
             level: {
                 value: number;
-                display_string: ITranslatedName,
+                display_string: TTranslatedName,
             },
         },
         durability: {
             value: number;
-            display_string: ITranslatedName;
+            display_string: TTranslatedName;
         },
         stats?: Array<{
             type: {
                 type: string;
-                name: ITranslatedName;
+                name: TTranslatedName;
             },
             value: number;
             display: {
-                display_string: ITranslatedName;
+                display_string: TTranslatedName;
                 color: TColor;
             },
         }>,
@@ -125,10 +125,10 @@ export interface IItemDetail {
                 key: {
                     href: string;
                 },
-                name: ITranslatedName;
+                name: TTranslatedName;
                 id: number;
             },
-            description: ITranslatedName;
+            description: TTranslatedName;
         }>
     },
     purchase_quantity: number;
