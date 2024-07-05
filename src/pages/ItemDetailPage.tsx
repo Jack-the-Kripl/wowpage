@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { IItemDetail } from "../types/ItemDetail";
+import { IListItemData } from "../types/ItemList";
 import useFetch from "../hooks/useFetch";
 
 // interface IItemDetailPageProps {
@@ -9,7 +9,7 @@ import useFetch from "../hooks/useFetch";
 
 export function ItemDetailPage(): JSX.Element {
     const { itemId } = useParams();
-    const [data, setData] = useState<IItemDetail | null>(null);
+    const [data, setData] = useState<IListItemData | null>(null);
     const [icon, setIcon] = useState<any>(null);
     const [imgPreview, setImgPreview] = useState<any>(null);
 		const [doFetch, fetchState] = useFetch();

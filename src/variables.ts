@@ -1,4 +1,4 @@
-import { TTranslatedName } from "./types/types"
+import { TCulture, TTranslatedName } from "./types/types"
 
 export const NAMESPACE = {
 	CLASSIC_S: { id: "static-classic1x-", name: "World of Warcraft Classic" },
@@ -14,7 +14,9 @@ export const REGION = {
 	EUROPE: { id: "eu", name: "Europe (EU)"}
 }
 
-export const CULTURE = {
+export const CULTURE: {
+	[key in TCulture]: { id: TCulture, name: string };
+} = {
 	en_US: { id: "en_US", name: "US"},
 	es_MX: { id: "es_MX", name: "MX"},
 	pt_BR: { id: "pt_BR", name: "BR"},

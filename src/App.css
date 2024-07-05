@@ -1,6 +1,8 @@
 :root {
 	--theme-color_light: rgb(219, 184, 141);
 	--theme-color_dark: rgb(47, 56, 71);
+
+	--theme-background: rgb(79, 90, 110);
 }
 
 * {
@@ -22,9 +24,9 @@ a {
 .container {
 	display: flex;
 	flex-direction: column;
-	flex: 1 1 auto;
+	flex: 1 1 100%;
 	padding: 32px;
-	overflow-y: auto;
+	/* overflow-y: auto; */
 }
 
 .row {

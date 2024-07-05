@@ -13,16 +13,16 @@ export default function Header(): JSX.Element {
 	const regions = Object.entries(REGION).map(entry => entry[1]);
 	const cultures = Object.entries(CULTURE).map(entry => entry[1]);
 
-	const handleNamespaceChange = useCallback((value: string) => {
-		setContext("namespace", value);
+	const handleNamespaceChange = useCallback((value: string | number) => {
+		typeof value === "string" && setContext("namespace", value);
 	}, [setContext]);
 
-	const handleRegionChange = useCallback((value: string) => {
-		setContext("region", value);
+	const handleRegionChange = useCallback((value: string | number) => {
+		typeof value === "string" && setContext("region", value);
 	}, [setContext]);
 
-	const handleCultureChange = useCallback((value: string) => {
-		setContext("culture", value);
+	const handleCultureChange = useCallback((value: string | number) => {
+		typeof value === "string" && setContext("culture", value);
 	}, [setContext]);
 
 	return (

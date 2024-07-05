@@ -20,17 +20,9 @@ export type TColor = {
 	a: number;
 }
 
+export type TCulture = "en_US" | "es_MX" | "pt_BR" | "de_DE" | "en_GB" | "es_ES" | "fr_FR" | "it_IT" | "ru_RU" | "ko_KR" | "zh_TW" | "zh_CN";
 export type TTranslatedName = {
-	en_US: string;
-	es_MX: string;
-	pt_BR: string;
-	de_DE: string;
-	en_GB: string;
-	es_ES: string;
-	fr_FR: string;
-	it_IT: string;
-	ru_RU: string;
-	ko_KR: string;
-	zh_TW: string;
-	zh_CN: string;
+	[key in TCulture]: string;
 }
+
+const test: TCulture = "it_IT"

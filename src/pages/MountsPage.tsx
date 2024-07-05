@@ -5,7 +5,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import Table, { IColDef } from "../components/common/Table/Table";
 import useFetch from "../hooks/useFetch";
 
-const item_table_cols_def: Array<IColDef> = [
+const item_table_cols_def: Array<IColDef<any>> = [
 	{
 		field: 'name',
 		headerName: "Name",

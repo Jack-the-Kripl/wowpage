@@ -4,7 +4,7 @@ import { TFetchState } from "../types/types";
 import { AppContext, IAppContext } from "../contexts/AppContext/AppContext";
 import { base_api_url, ENDPOINTS } from "../api";
 
-type TRequestConfig = {
+export type TRequestConfig = {
 	method?: string;
 	headers?: any;
 	body?: any;
@@ -16,6 +16,8 @@ export default function useFetch() {
 
 	let timer: any = null;
 
+	let controller: AbortController;
+
 	const doFetch = useCallback(async (
 		apiKey: keyof typeof ENDPOINTS | string,
 		paths: Array<string>,
@@ -23,6 +25,13 @@ export default function useFetch() {
 		callback: Function,
 		config: TRequestConfig = { method: 'GET' }
 	) => {
+
+		if (controller) {
+			controller.abort();
+		}
+
+		controller = new AbortController();
+
 		let body_str = null;
 		if (config.body) {
 			body_str = JSON.stringify(config.body);
@@ -34,6 +43,7 @@ export default function useFetch() {
 			const api = ENDPOINTS[apiKey];
 			url = api ? createApiUrl(apiKey as keyof typeof ENDPOINTS, paths, query) : apiKey;
 			const response = await fetch(url, {
+				signal: controller.signal,
 				method: config.method,
 				headers: {
 					...config.headers,
@@ -48,11 +58,11 @@ export default function useFetch() {
 				callback(data);
 			} else {
 				setFetchState("error");
-				throw new Error("something went wrong.");
+				// throw new Error("something went wrong.");
 			};
 		} catch (e: any) {
 			setFetchState("error");
-			throw new Error(e.toString());
+			// throw new Error(e.toString());
 		};
 		resetState();
 	}, [appContext]);
