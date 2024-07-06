@@ -37,3 +37,7 @@ a {
 .row>div {
 	margin-right: 16px;
 }
+
+.section {
+	margin-bottom: 0.5rem;
+}

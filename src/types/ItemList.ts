@@ -129,9 +129,29 @@ export interface IListItemData {
 				id: number;
 			},
 			description: TTranslatedName;
-		}>
+		}>,
+		weapon?: {
+			attack_speed: {
+				value: number,
+				display_string: TTranslatedName
+			},
+			damage: {
+				damage_class: {
+					type: string,
+					name: TTranslatedName
+				},
+				display_string: TTranslatedName,
+				max_value: number,
+				min_value: number
+			},
+			dps: {
+				value: number,
+				display_string: TTranslatedName
+			}
+		}
 	},
 	purchase_quantity: number;
+	unique_equipped?: TTranslatedName
 };
 
 export interface IListItem {

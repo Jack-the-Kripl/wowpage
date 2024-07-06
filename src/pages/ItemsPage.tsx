@@ -32,10 +32,10 @@ const item_table_cols_def: Array<IColDef<IListItem>> = [
 		field: 'actions',
 		headerName: "",
 		render: (rowData) => {
-			return <Link to={`detail/${rowData.data.id}`} key={`item_` + rowData.data.id}>Detail</Link>
+			return <Link to={`detail/${rowData.data.id}`} key={`item_` + rowData.data.id}>Detail</Link>;
 		}
 	}
-]
+];
 
 export function ItemsPage(): JSX.Element {
 	const [search, setSearch] = useSearchParams();
@@ -44,23 +44,25 @@ export function ItemsPage(): JSX.Element {
 	const [searchValue, setSearchValue] = useState<string>(search.get("search") ?? "");
 	const [itemClasses, setItemClasses] = useState<Array<any>>([]);
 
+	const [filters, setFilters] = useState<Array<[string, string | number]>>([]);
+
 	const [doFetch, fetchState] = useFetch();
 
 	useEffect(() => {
 		if (search.get("search")) {
 			doSearch();
-		}
-
-		doFetch("item_classes", [], [], (data: any) => {
-			setItemClasses(data.item_classes);
-		}).catch(console.log);
+		};
 	}, []);
 
-	function doSearch(page: number = 1, pageSize: number = 15) {
-		(page !== searchMeta?.page || pageSize !== searchMeta?.pageSize) && doFetch(
+	// useEffect(() => {
+	// 	items.length > 0 && doSearch();
+	// }, [filters]);
+
+	function doSearch() {
+		doFetch(
 			"search_item",
 			[],
-			[["name.{culture}", searchValue], ["_page", page.toString()], ["_pageSize", pageSize.toString()], ["orderby", "required_level"]],
+			[["name.{culture}", searchValue], ["orderby", "required_level"], ...filters],
 			(data: IItemSearchData) => {
 				setSearchMeta({
 					maxPageSize: data.maxPageSize,
@@ -70,12 +72,12 @@ export function ItemsPage(): JSX.Element {
 				});
 				setItems(data.results);
 			}).catch(console.log);
-	}
+	};
 
 	function handleInputChange(e: any) {
 		const val = e.target.value;
 		setSearchValue(val);
-	}
+	};
 
 	function handleSearchClick() {
 		setSearch(params => {
@@ -83,17 +85,43 @@ export function ItemsPage(): JSX.Element {
 			return params
 		});
 		doSearch();
-	}
+	};
+
+	function handleFilterChange(args: Array<[string, string | number]>) {
+		setFilters(prev => {
+			const newFilters = [...prev];
+			let modified = false;
+			args.forEach(([key, value]) => {
+				const filter = newFilters.find(f => f[0] === key);
+				if (filter) {
+					if (filter[1] !== value) {
+						filter[1] = value;
+						modified = true;
+					}
+				} else {
+					newFilters.push([key, value]);
+					modified = true;
+				};
+			});
+			return modified ? newFilters : prev;
+		});
+	};
 
 	return (
 		<>
 			<h1>ITEMS PAGE</h1>
 			<div className="row">
 				<TextField variant="standard" onChange={handleInputChange} value={searchValue} InputProps={{ value: searchValue }} placeholder="Name" />
-				<Dropdown dark options={itemClasses} style={{ width: "10rem" }} />
 				<Button onClick={handleSearchClick}>SEARCH</Button>
 			</div>
-			<Table columns={item_table_cols_def} rows={items} metadata={searchMeta} onPageChange={doSearch} fetchState={fetchState} />
+			<div className="row">
+				<Dropdown dark options={itemClasses} valueKey="name" style={{ width: "10rem" }} onChange={(value) => {
+					handleFilterChange([["type", (value as string).toLowerCase()]]);
+				}} />
+			</div>
+			<Table columns={item_table_cols_def} rows={items} metadata={searchMeta} onPageChange={(currentPage: number, currentPageSize: number) => {
+				handleFilterChange([["_page", currentPage], ["_pageSize", currentPageSize]]);
+			}} fetchState={fetchState} />
 		</>
 	)
 }

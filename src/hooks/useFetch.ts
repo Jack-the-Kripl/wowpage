@@ -10,6 +10,14 @@ export type TRequestConfig = {
 	body?: any;
 }
 
+export type TFetchArgs = [
+	keyof typeof ENDPOINTS | string,
+	Array<string>,
+	Array<[string, string | number]>,
+	Function,
+	TRequestConfig
+]
+
 export default function useFetch() {
 	const [fetchState, setFetchState] = useState<TFetchState>("notFired");
 	const appContext = useContext(AppContext);
@@ -21,7 +29,7 @@ export default function useFetch() {
 	const doFetch = useCallback(async (
 		apiKey: keyof typeof ENDPOINTS | string,
 		paths: Array<string>,
-		query: Array<[string, string]>,
+		query: Array<[string, string | number]>,
 		callback: Function,
 		config: TRequestConfig = { method: 'GET' }
 	) => {
@@ -67,7 +75,7 @@ export default function useFetch() {
 		resetState();
 	}, [appContext]);
 
-	const createApiUrl = useCallback((baseApiKey: keyof typeof ENDPOINTS, paths: Array<string>, query: Array<[string, string]>): string => {
+	const createApiUrl = useCallback((baseApiKey: keyof typeof ENDPOINTS, paths: Array<string>, query: Array<[string, string | number]>): string => {
 		let result = base_api_url + ENDPOINTS[baseApiKey];
 		result += paths.map(path => {
 			return `${path}`;
@@ -77,7 +85,7 @@ export default function useFetch() {
 			result += query.map(entry => {
 				const regex = /\{([^}]+)\}/g;
 				let value: string | keyof IAppContext | undefined = regex.exec(entry[0])?.[0];
-				value = value?.substring(1, value.length-1);
+				value = value?.substring(1, value.length - 1);
 				//@ts-ignore
 				entry[0] = entry[0].replace(regex, appContext[value]);
 				return `${entry[0]}=${entry[1]}`;

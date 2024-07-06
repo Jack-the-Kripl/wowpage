@@ -19,14 +19,22 @@ export default function Dropdown(props: IDropdownProps) {
 	const options = useMemo(() => {
 		return props.options.map((option) => {
 			if (typeof option === "object") {
-				const optionKey = props.nameKey ?? "name";
+				const optionNameKey = props.nameKey ?? "name";
 				let optionName: string | null = null;
-				if (typeof option[optionKey] === "object") {
-					optionName = getTranslatedName(option[optionKey]);
+				const optionValueKey = props.valueKey ?? "id";
+				let optionValue: string | null = null;
+				
+				if (typeof option[optionNameKey] === "object") {
+					optionName = getTranslatedName(option[optionNameKey]);
 				} else {
-					optionName = option[optionKey];
+					optionName = option[optionNameKey];
 				}
-				return <MenuItem value={option[props.valueKey ?? "id"]}>{optionName}</MenuItem>;
+				if (typeof option[optionValueKey] === "object") {
+					optionValue = getTranslatedName(option[optionValueKey]);
+				} else {
+					optionValue = option[optionValueKey];
+				}
+				return <MenuItem value={optionValue ?? ""}>{optionName}</MenuItem>;
 			} else {
 				return <MenuItem value={option}>{option}</MenuItem>;
 			}
